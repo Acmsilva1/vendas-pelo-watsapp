@@ -54,7 +54,7 @@
     <h2>🍰 DELÍCIAS DA JÚ</h2>
 
     <div class="section">
-        <label>💰 CONFIGURAR PREÇOS (R$)</label>
+        <label>💰 VALORES DOS PRODUTOS!</label>
         <div class="price-grid">
             <div class="price-item"><label>COMUM</label><input type="number" id="p_comum" value="17.00" oninput="salvarEstado()"></div>
             <div class="price-item"><label>COBERTURA</label><input type="number" id="p_cobertura" value="27.00" oninput="salvarEstado()"></div>
@@ -63,9 +63,9 @@
     </div>
 
     <div class="section">
-        <label>📸 FOTO DA PRODUÇÃO</label>
+        <label>📸 FOTO</label>
         <label class="foto-upload">
-            <span id="label-foto">CLIQUE PARA ANEXAR 📷</span>
+            <span id="label-foto">SELECIONE UMA FOTO! 📷</span>
             <input type="file" id="fotoInput" accept="image/*" onchange="previewFoto(this)" style="display:none">
             <img id="preview" class="preview-img">
         </label>
@@ -74,9 +74,9 @@
     <div class="section">
         <label>1. SAUDAÇÃO</label>
         <div class="saudacao-grid">
-            <label><input type="radio" name="saudacao" value="Bom dia ☕" onchange="salvarEstado()"> Bom dia ☕</label>
-            <label><input type="radio" name="saudacao" value="Boa tarde ☀️" onchange="salvarEstado()"> Boa tarde ☀️</label>
-            <label><input type="radio" name="saudacao" value="Boa noite ✨" onchange="salvarEstado()"> Boa noite ✨</label>
+            <label><input type="radio" name="saudacao" value="Bom dia ☕" onchange="salvarEstado()"> Bom dia! ☕</label>
+            <label><input type="radio" name="saudacao" value="Boa tarde ☀️" onchange="salvarEstado()"> Boa tarde! ☀️</label>
+            <label><input type="radio" name="saudacao" value="Boa noite ✨" onchange="salvarEstado()"> Boa noite! ✨</label>
         </div>
     </div>
 
@@ -91,7 +91,7 @@
             <div id="lista-comum" class="list"></div>
         </div>
         <div class="column">
-            <div class="cat-title">COM COBERTURA</div>
+            <div class="cat-title">BOLOS COM COBERTURA</div>
             <div id="lista-especial" class="list"></div>
         </div>
         <div class="column" id="col-especial" style="display:none">
@@ -101,11 +101,11 @@
     </div>
 
     <div class="section" style="margin-top:20px;">
-        <label>4. RODAPÉ E PAGAMENTO</label>
+        <label>4. DADOS DE PAGAMENTO</label>
         <textarea id="rodape" rows="5" oninput="salvarEstado()"></textarea>
     </div>
 
-    <button class="btn-wa" onclick="enviarTudo()">🚀 POSTAR E SALVAR NO SHEETS</button>
+    <button class="btn-wa" onclick="enviarTudo()">🚀 POSTAR</button>
     <div id="status" class="status-sheets"></div>
 
     <div style="text-align: center; margin-top: 30px; border-top: 1px dashed var(--border); padding-top: 15px;">
