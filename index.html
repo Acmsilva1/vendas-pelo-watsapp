@@ -149,7 +149,7 @@
         };
 
         fetch(URL_SHEETS, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) })
-            .then(() => document.getElementById('status').innerText = "✅ Insight registrado!")
+            .then(() => document.getElementById('status').innerText = "✅ Dado registrado!")
             .catch(() => document.getElementById('status').innerText = "❌ Offline: Salvo localmente");
     }
 
