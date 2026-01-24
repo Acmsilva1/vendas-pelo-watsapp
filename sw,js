@@ -1,10 +1,23 @@
 const CACHE_NAME = 'delicias-ju-v5';
-const assets = ['./', './index.html', './manifest.json'];
+// Adicionando o prefixo do novo repositório nos assets
+const assets = [
+  '/vendas-pelo-watsapp/',
+  '/vendas-pelo-watsapp/index.html',
+  '/vendas-pelo-watsapp/manifest.json'
+];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(assets)));
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(assets);
+    })
+  );
 });
 
 self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+  e.respondWith(
+    caches.match(e.request).then(res => {
+      return res || fetch(e.request);
+    })
+  );
 });
