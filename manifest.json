@@ -1,17 +1,23 @@
 {
-  "name": "Vendas pelo WhatsApp",
-  "short_name": "Jú Bolos",
-  "description": "Gerador de pedidos Delícias da Jú",
-  "start_url": "/vendas-pelo-watsapp/index.html",
-  "scope": "/vendas-pelo-watsapp/",
+  "name": "Delícias da Jú - Vendas",
+  "short_name": "Jú Vendas",
+  "description": "Sistema de Gestão de Vendas e Insights",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f8f9fa",
-  "theme_color": "#d81b60",
+  "background_color": "#121212",
+  "theme_color": "#121212",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/992/992747.png",
-      "sizes": "512x512",
+      "src": "logo.png",
+      "sizes": "192x192",
       "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
