@@ -1,23 +1,22 @@
-const CACHE_NAME = 'delicias-ju-v12';
-// Adicionando o prefixo do novo repositório nos assets
-const assets = [
-  '/vendas-pelo-watsapp/',
-  '/vendas-pelo-watsapp/index.html',
-  '/vendas-pelo-watsapp/manifest.json'
-];
-
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(assets);
-    })
-  );
-});
-
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(res => {
-      return res || fetch(e.request);
-    })
-  );
-});
+{
+  "name": "Delícias da Jú - V13",
+  "short_name": "Jú Bolos",
+  "description": "Gerenciador de Marketing e Insights da Jú",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#ff4081",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
