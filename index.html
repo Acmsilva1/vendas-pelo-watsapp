@@ -3,58 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendas pelo WhatsApp - Jú (Insights Edition)</title>
+    <title>Vendas</title>
     <link rel="manifest" href="/vendas-pelo-watsapp/manifest.json">
     <meta name="theme-color" content="#121212">
     <style>
+        /* Variáveis de Cores Dark Mode */
         :root { 
-            --wa: #25d366; --pink: #ff4081; --blue: #40c4ff;
-            --bg: #121212; --card-bg: #1e1e1e; --text-main: #e0e0e0; 
-            --border: #333; --input-bg: #2d2d2d;
+            --wa: #25d366; 
+            --pink: #ff4081; 
+            --blue: #40c4ff;
+            --bg: #121212; 
+            --card-bg: #1e1e1e; 
+            --text-main: #e0e0e0; 
+            --text-sub: #b0b0b0;
+            --border: #333333;
+            --input-bg: #2d2d2d;
         }
+
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-main); padding: 15px; margin: 0; display: flex; justify-content: center; }
-        .card { background: var(--card-bg); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 850px; border: 1px solid var(--border); }
-        h2 { color: var(--pink); text-align: center; margin-top: 0; font-size: 20px; text-transform: uppercase; }
+        
+        .card { 
+            background: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            width: 100%; 
+            max-width: 850px; 
+            border: 1px solid var(--border); 
+        }
+
+        h2 { color: var(--pink); text-align: center; margin-top: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        
         .section { margin-bottom: 20px; background: var(--input-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
+        
         label { font-weight: bold; color: var(--pink); display: block; margin-bottom: 8px; font-size: 14px; }
+        
+        /* Grid de Preços */
         .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
         .price-item { background: var(--card-bg); padding: 10px; border-radius: 10px; border: 1px solid var(--border); text-align: center; }
-        .price-item input { width: 100%; border: none; font-size: 16px; font-weight: bold; text-align: center; color: var(--wa); background: transparent; outline: none; }
-        .saudacao-grid { display: flex; gap: 8px; }
-        .saudacao-grid label { flex: 1; text-align: center; background: var(--card-bg); border: 2px solid var(--border); padding: 12px; border-radius: 10px; cursor: pointer; font-size: 11px; }
+        .price-item label { font-size: 11px; margin-bottom: 4px; color: var(--text-sub); }
+        .price-item input { width: 100%; border: none; font-size: 16px; font-weight: bold; text-align: center; color: var(--wa); outline: none; background: transparent; }
+
+        /* Saudação */
+        .saudacao-grid { display: flex; gap: 8px; margin-bottom: 10px; }
+        .saudacao-grid label { flex: 1; display: flex; align-items: center; justify-content: center; background: var(--card-bg); border: 2px solid var(--border); padding: 12px; border-radius: 10px; cursor: pointer; font-size: 11px; color: var(--text-sub); transition: 0.3s; }
         .saudacao-grid input { display: none; }
-        .saudacao-grid label:has(input:checked) { border-color: var(--pink); background: #3d1a26; color: var(--pink); }
-        textarea, .input-text { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--border); background: var(--card-bg); color: var(--text-main); box-sizing: border-box; }
-        .foto-upload { background: #1a2a3a; border: 2px dashed var(--blue); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; display: block; color: var(--blue); }
-        .preview-img { max-width: 120px; display: none; margin: 10px auto; border-radius: 8px; }
+        .saudacao-grid label:has(input:checked) { border-color: var(--pink); background: #3d1a26; color: var(--pink); font-weight: bold; }
+        
+        textarea, .input-text { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--border); font-size: 16px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); outline: none; }
+        
+        /* Foto */
+        .foto-upload { background: #1a2a3a; border: 2px dashed var(--blue); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; color: var(--blue); font-weight: bold; }
+        .preview-img { max-width: 120px; max-height: 120px; margin: 10px auto; border-radius: 8px; display: none; border: 2px solid var(--border); }
+        
+        /* Colunas de Sabores */
         .flex-container { display: flex; flex-wrap: wrap; gap: 20px; }
         .column { flex: 1; min-width: 250px; }
-        .cat-title { background: var(--pink); color: white; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; text-align: center; }
+        .cat-title { background: var(--pink); color: white; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; font-size: 13px; text-align: center; box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3); }
+        
         .list { display: flex; flex-direction: column; gap: 6px; }
-        .item { display: flex; align-items: center; background: var(--input-bg); padding: 12px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; font-size: 13px; }
+        .item { display: flex; align-items: center; background: var(--input-bg); padding: 12px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .item:hover { background: #333; }
         input[type="checkbox"] { margin-right: 12px; width: 22px; height: 22px; accent-color: var(--wa); }
-        .btn-wa { background: var(--wa); color: #000; border: none; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 20px; }
-        .status-sheets { font-size: 10px; text-align: center; margin-top: 5px; color: var(--blue); opacity: 0.7; }
+        
+        /* Ações */
+        .btn-wa { background: var(--wa); color: #000; border: none; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); margin-top: 10px; }
+        .status-sheets { font-size: 10px; text-align: center; margin-top: 8px; color: var(--blue); font-style: italic; }
+        
+        .btn-clear { background: transparent; color: #ff5252; border: 1px solid #ff5252; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 11px; opacity: 0.6; transition: 0.3s; }
+        .btn-clear:hover { opacity: 1; background: rgba(255, 82, 82, 0.1); }
     </style>
 </head>
 <body onload="carregarEstado()">
 
 <div class="card">
-    <h2>🍰 VENDAS & INSIGHTS DA JÚ</h2>
+    <h2>🍰 DELÍCIAS DA JÚ</h2>
 
     <div class="section">
-        <label>💰 PREÇOS (R$)</label>
+        <label>💰 CONFIGURAR PREÇOS (R$)</label>
         <div class="price-grid">
-            <div class="price-item"><label>COMUM</label><input type="number" id="p_comum" value="17.00" oninput="salvarEstado()"></div>
-            <div class="price-item"><label>COBERTURA</label><input type="number" id="p_cobertura" value="27.00" oninput="salvarEstado()"></div>
-            <div class="price-item"><label>ESPECIAL</label><input type="number" id="p_especial" value="35.00" oninput="salvarEstado()"></div>
+            <div class="price-item">
+                <label>COMUM</label>
+                <input type="number" id="p_comum" value="17.00" oninput="salvarEstado()">
+            </div>
+            <div class="price-item">
+                <label>COBERTURA</label>
+                <input type="number" id="p_cobertura" value="27.00" oninput="salvarEstado()">
+            </div>
+            <div class="price-item">
+                <label>ESPECIAL</label>
+                <input type="number" id="p_especial" value="35.00" oninput="salvarEstado()">
+            </div>
         </div>
     </div>
 
     <div class="section">
-        <label>📸 FOTO DO PRODUTO</label>
+        <label>📸 FOTO DA PRODUÇÃO</label>
         <label class="foto-upload">
-            <span id="label-foto">ANEXAR FOTO 📷</span>
+            <span id="label-foto">CLIQUE PARA ANEXAR 📷</span>
             <input type="file" id="fotoInput" accept="image/*" onchange="previewFoto(this)" style="display:none">
             <img id="preview" class="preview-img">
         </label>
@@ -70,40 +116,50 @@
     </div>
 
     <div class="section">
-        <label>2. TÍTULO</label>
-        <input type="text" id="titulo" class="input-text" oninput="salvarEstado()">
+        <label>2. TÍTULO DO POST</label>
+        <input type="text" id="titulo" class="input-text" placeholder="Ex: vizinhos! Bolo caseiro..." oninput="salvarEstado()">
     </div>
 
     <div class="flex-container">
         <div class="column">
-            <div class="cat-title">COMUNS</div>
+            <div class="cat-title">BOLOS COMUNS</div>
             <div id="lista-comum" class="list"></div>
         </div>
         <div class="column">
-            <div class="cat-title">COBERTURA</div>
+            <div class="cat-title">COM COBERTURA</div>
             <div id="lista-especial" class="list"></div>
         </div>
         <div class="column" id="col-especial" style="display:none">
-            <div class="cat-title">ESPECIAIS</div>
+            <div class="cat-title">ESPECIAIS 🌟</div>
             <div id="lista-vips" class="list"></div>
         </div>
     </div>
 
     <div class="section" style="margin-top:20px;">
-        <label>4. RODAPÉ</label>
-        <textarea id="rodape" rows="4" oninput="salvarEstado()"></textarea>
+        <label>4. RODAPÉ E PAGAMENTO</label>
+        <textarea id="rodape" rows="5" oninput="salvarEstado()"></textarea>
     </div>
 
-    <button class="btn-wa" onclick="enviarTudo()">🚀 POSTAR E SALVAR INSIGHT</button>
+    <button class="btn-wa" onclick="enviarTudo()">🚀 POSTAR E SALVAR NO SHEETS</button>
     <div id="status" class="status-sheets"></div>
+
+    <div style="text-align: center; margin-top: 30px; border-top: 1px dashed var(--border); padding-top: 15px;">
+        <button class="btn-clear" onclick="limparTudo()">🗑️ RECOMEÇAR / LIMPAR TUDO</button>
+    </div>
 </div>
 
 <script>
     const URL_SHEETS = "https://script.google.com/macros/s/AKfycbyTX9Etnf3aoo2_WbUjb4zmuKRbMhBkJBeRjk9Um-sKkpKLrvHzmgAAe9AEXYFthJUekQ/exec";
 
+    // PWA Service Worker
+    if ('serviceWorker' in navigator) { 
+        navigator.serviceWorker.register('/vendas-pelo-watsapp/sw.js'); 
+    }
+
+    // LISTAS DE SABORES (Adicione novos aqui!)
     const saboresComuns = ["CHOCOLATE", "CENOURA", "FUBÁ", "MILHO", "LARANJA", "LIMÃO", "NINHO", "PAÇOCA", "BANANA"];
     const saboresCobertura = ["CHOCOLATE COM CHOCOLATE", "CHOCOLATE COM NINHO", "CENOURA COM CHOCOLATE", "NINHO COM CHOCOLATE", "NINHO COM NINHO", "FUBÁ COM GOIABADA", "CHURROS", "ABACAXI CARAMELADO", "BANANA CARAMELADA", "CUCA DE BANANA", "PAÇOCA COM DOCE DE LEITE"];
-    const saboresEspeciais = [];
+    const saboresEspeciais = []; // Quando preencher, a 3ª coluna aparece
 
     function renderizarSabores() {
         const cDiv = document.getElementById('lista-comum');
@@ -111,17 +167,22 @@
         const vDiv = document.getElementById('lista-vips');
         cDiv.innerHTML = ""; eDiv.innerHTML = ""; vDiv.innerHTML = "";
 
-        saboresComuns.forEach(s => cDiv.innerHTML += `<label class="item"><input type="checkbox" class="sabor" data-nome="${s}" data-cat="COMUM" onchange="salvarEstado()"> ${s}</label>`);
-        saboresCobertura.forEach(s => eDiv.innerHTML += `<label class="item"><input type="checkbox" class="sabor" data-nome="${s}" data-cat="COB" onchange="salvarEstado()"> ${s}</label>`);
+        saboresComuns.forEach(s => cDiv.innerHTML += criarItem(s, 'COMUM'));
+        saboresCobertura.forEach(s => eDiv.innerHTML += criarItem(s, 'COB'));
         
         if(saboresEspeciais.length > 0) {
             document.getElementById('col-especial').style.display = 'block';
-            saboresEspeciais.forEach(s => vDiv.innerHTML += `<label class="item"><input type="checkbox" class="sabor" data-nome="${s}" data-cat="ESP" onchange="salvarEstado()"> ${s}</label>`);
+            saboresEspeciais.forEach(s => vDiv.innerHTML += criarItem(s, 'ESP'));
         }
     }
 
+    function criarItem(nome, cat) {
+        return `<label class="item"><input type="checkbox" class="sabor" data-nome="${nome}" data-cat="${cat}" onchange="salvarEstado()"> ${nome}</label>`;
+    }
+
+    // Lógica do Google Sheets
     async function registrarNoSheets(selecionados, precos) {
-        document.getElementById('status').innerText = "⌛ Sincronizando insight...";
+        document.getElementById('status').innerText = "⌛ Sincronizando com Sheets...";
         const dados = {
             hora: new Date().toLocaleTimeString('pt-BR'),
             diaSemana: new Date().toLocaleDateString('pt-BR', {weekday: 'long'}),
@@ -131,10 +192,11 @@
         };
 
         try {
+            // Mode no-cors é necessário para Google Apps Script
             await fetch(URL_SHEETS, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
-            document.getElementById('status').innerText = "✅ Insight salvo no Google Sheets";
+            document.getElementById('status').innerText = "✅ Registro salvo na planilha!";
         } catch (e) {
-            document.getElementById('status').innerText = "❌ Erro ao sincronizar";
+            document.getElementById('status').innerText = "❌ Erro ao salvar insight (verifique a internet)";
         }
     }
 
@@ -149,7 +211,11 @@
 
     function salvarEstado() {
         const estado = {
-            precos: { comum: document.getElementById('p_comum').value, cob: document.getElementById('p_cobertura').value, esp: document.getElementById('p_especial').value },
+            precos: {
+                comum: document.getElementById('p_comum').value,
+                cob: document.getElementById('p_cobertura').value,
+                esp: document.getElementById('p_especial').value
+            },
             saudacao: document.querySelector('input[name="saudacao"]:checked')?.value || "Bom dia ☕",
             titulo: document.getElementById('titulo').value,
             rodape: document.getElementById('rodape').value,
@@ -171,37 +237,58 @@
             document.querySelectorAll('input[name="saudacao"]').forEach(r => { if(r.value === e.saudacao) r.checked = true; });
             document.querySelectorAll('.sabor').forEach(cb => { if(e.selecionados.includes(cb.getAttribute('data-nome'))) cb.checked = true; });
         } else {
+            // Valores padrão se for a primeira vez
             document.getElementById('titulo').value = "vizinhos! Bolo caseiro sob demanda ⚠️";
             document.getElementById('rodape').value = "Aceitamos:\n💲 PIX\n💵 Dinheiro\n💳 Cartão por aproximação\n\nDelícias da Jú 💞";
         }
     }
 
+    function limparTudo() {
+        if(confirm("⚠️ ATENÇÃO: Deseja apagar todos os preços, sabores marcados e textos? Isso não apaga o histórico do Sheets.")) {
+            localStorage.removeItem('ju_v8_sheets');
+            location.reload();
+        }
+    }
+
     async function enviarTudo() {
         const sel = document.querySelectorAll('.sabor:checked');
-        if (sel.length === 0) { alert("Escolha os bolos!"); return; }
+        if (sel.length === 0) { alert("Selecione pelo menos um bolo!"); return; }
 
         const listaNomes = Array.from(sel).map(s => s.getAttribute('data-nome'));
-        const precos = { comum: document.getElementById('p_comum').value, cob: document.getElementById('p_cobertura').value, esp: document.getElementById('p_especial').value };
+        const precos = {
+            comum: document.getElementById('p_comum').value,
+            cob: document.getElementById('p_cobertura').value,
+            esp: document.getElementById('p_especial').value
+        };
 
-        // LOG NO SHEETS
+        // Salvar Insight no Google Sheets
         registrarNoSheets(listaNomes, precos);
 
-        let msg = `*${document.querySelector('input[name="saudacao"]:checked').value} ${document.getElementById('titulo').value}*\n\n*SABORES:* 😋\n\n`;
+        // Montar Mensagem WhatsApp
+        let msg = `*${document.querySelector('input[name="saudacao"]:checked').value} ${document.getElementById('titulo').value}*\n\n*SABORES DISPONÍVEIS:* 😋\n\n`;
+        
         const filtrar = (cat) => Array.from(sel).filter(s => s.getAttribute('data-cat') === cat);
-        const comuns = filtrar('COMUM'); const cobs = filtrar('COB'); const esps = filtrar('ESP');
+        const comuns = filtrar('COMUM');
+        const cobs = filtrar('COB');
+        const esps = filtrar('ESP');
 
         if(comuns.length > 0) { msg += `🥧 *COMUM: ${precos.comum} R$*\n`; comuns.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
-        if(cobs.length > 0) { msg += `🍰 *COBERTURA: ${precos.cob} R$*\n`; cobs.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
+        if(cobs.length > 0) { msg += `🍰 *COM COBERTURA: ${precos.cob} R$*\n`; cobs.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
         if(esps.length > 0) { msg += `🌟 *ESPECIAL: ${precos.esp} R$*\n`; esps.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
         
         msg += document.getElementById('rodape').value;
 
+        // Compartilhamento Nativo (Web Share API)
         const files = document.getElementById('fotoInput').files;
         if (files.length > 0 && navigator.share) {
-            try { await navigator.share({ files: [files[0]], text: msg }); return; } catch (err) {}
+            try { await navigator.share({ files: [files[0]], text: msg }); return; } catch (err) { console.log("Share failed", err); }
         }
-        if (navigator.share) { await navigator.share({ text: msg }); } 
-        else { window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg)); }
+        
+        if (navigator.share) { 
+            await navigator.share({ text: msg }); 
+        } else { 
+            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg)); 
+        }
     }
 </script>
 </body>
