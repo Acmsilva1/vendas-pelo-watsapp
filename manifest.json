@@ -1,8 +1,9 @@
 {
-  "name": "Delícias da Jú",
+  "name": "Vendas pelo WhatsApp",
   "short_name": "Jú Bolos",
   "description": "Gerador de pedidos Delícias da Jú",
-  "start_url": "index.html",
+  "start_url": "/vendas-pelo-watsapp/index.html",
+  "scope": "/vendas-pelo-watsapp/",
   "display": "standalone",
   "background_color": "#f8f9fa",
   "theme_color": "#d81b60",
