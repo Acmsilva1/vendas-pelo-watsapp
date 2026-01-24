@@ -3,51 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendas pelo WhatsApp - Jú</title>
+    <title>Vendas pelo WhatsApp - Jú (Dark Edition)</title>
     <link rel="manifest" href="/vendas-pelo-watsapp/manifest.json">
-    <meta name="theme-color" content="#d81b60">
+    <meta name="theme-color" content="#1a1a1a">
     <style>
-        :root { --wa: #25d366; --pink: #d81b60; --blue: #34b7f1; }
-        body { font-family: 'Segoe UI', sans-serif; background: #e5e5e5; padding: 15px; margin: 0; display: flex; justify-content: center; }
-        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 850px; }
+        /* Variáveis de Cores Dark Mode */
+        :root { 
+            --wa: #25d366; 
+            --pink: #ff4081; 
+            --blue: #40c4ff;
+            --bg: #121212; /* Fundo principal */
+            --card-bg: #1e1e1e; /* Fundo dos cards */
+            --text-main: #e0e0e0; 
+            --text-sub: #b0b0b0;
+            --border: #333333;
+            --input-bg: #2d2d2d;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-main); padding: 15px; margin: 0; display: flex; justify-content: center; }
+        .card { background: var(--card-bg); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 850px; border: 1px solid var(--border); }
         h2 { color: var(--pink); text-align: center; margin-top: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .section { margin-bottom: 20px; background: #fdfdfd; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
-        label { font-weight: bold; color: #555; display: block; margin-bottom: 8px; font-size: 14px; }
         
-        /* Grid de Preços */
+        .section { margin-bottom: 20px; background: var(--input-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
+        label { font-weight: bold; color: var(--pink); display: block; margin-bottom: 8px; font-size: 14px; }
+        
+        /* Grid de Preços Dark */
         .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .price-item { background: #fff; padding: 10px; border-radius: 10px; border: 1px solid #ddd; text-align: center; }
-        .price-item label { font-size: 11px; margin-bottom: 4px; color: var(--pink); }
-        .price-item input { width: 100%; border: none; font-size: 16px; font-weight: bold; text-align: center; color: #333; outline: none; }
+        .price-item { background: var(--card-bg); padding: 10px; border-radius: 10px; border: 1px solid var(--border); text-align: center; }
+        .price-item label { font-size: 11px; margin-bottom: 4px; color: var(--text-sub); }
+        .price-item input { width: 100%; border: none; font-size: 16px; font-weight: bold; text-align: center; color: var(--wa); outline: none; background: transparent; }
 
         .saudacao-grid { display: flex; gap: 8px; margin-bottom: 10px; }
-        .saudacao-grid label { flex: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 2px solid #eee; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 12px; }
+        .saudacao-grid label { flex: 1; display: flex; align-items: center; justify-content: center; background: var(--card-bg); border: 2px solid var(--border); padding: 12px; border-radius: 10px; cursor: pointer; font-size: 11px; color: var(--text-sub); transition: 0.3s; }
         .saudacao-grid input { display: none; }
-        .saudacao-grid label:has(input:checked) { border-color: var(--pink); background: #fff5f8; color: var(--pink); font-weight: bold; }
+        .saudacao-grid label:has(input:checked) { border-color: var(--pink); background: #3d1a26; color: var(--pink); font-weight: bold; }
         
-        textarea, .input-text { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #eee; font-size: 16px; box-sizing: border-box; }
-        .foto-upload { background: #f0f7ff; border: 2px dashed var(--blue); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; display: block; }
-        .preview-img { max-width: 100px; max-height: 100px; margin-top: 10px; border-radius: 8px; display: none; margin: 10px auto; }
+        textarea, .input-text { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--border); font-size: 16px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); outline: none; }
+        textarea:focus, .input-text:focus { border-color: var(--blue); }
+
+        .foto-upload { background: #1a2a3a; border: 2px dashed var(--blue); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; color: var(--blue); }
+        .preview-img { max-width: 120px; max-height: 120px; margin: 10px auto; border-radius: 8px; display: none; border: 2px solid var(--border); }
         
         .flex-container { display: flex; flex-wrap: wrap; gap: 20px; }
         .column { flex: 1; min-width: 250px; }
-        .cat-title { background: var(--pink); color: white; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; font-size: 13px; text-align: center; }
+        .cat-title { background: var(--pink); color: white; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; font-size: 13px; text-align: center; box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3); }
+        
         .list { display: flex; flex-direction: column; gap: 6px; }
-        .item { display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 10px; border: 1px solid #eee; cursor: pointer; font-size: 13px; }
-        input[type="checkbox"] { margin-right: 12px; width: 22px; height: 22px; accent-color: var(--wa); }
+        .item { display: flex; align-items: center; background: var(--input-bg); padding: 12px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; font-size: 13px; color: var(--text-main); transition: 0.2s; }
+        .item:hover { background: #333; }
+        input[type="checkbox"] { margin-right: 12px; width: 22px; height: 22px; accent-color: var(--wa); cursor: pointer; }
         
         .actions { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
-        .btn-wa { background: var(--wa); color: white; border: none; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .btn-clear { background: #666; color: white; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-size: 12px; }
+        .btn-wa { background: var(--wa); color: #000; border: none; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); }
+        .btn-clear { background: transparent; color: #ff5252; border: 1px solid #ff5252; padding: 10px; border-radius: 12px; cursor: pointer; font-size: 12px; margin-top: 10px; }
     </style>
 </head>
 <body onload="carregarEstado()">
 
 <div class="card">
-    <h2>📱 Vendas pelo WhatsApp</h2>
+    <h2>🍰 DELÍCIAS DA JÚ (DARK)</h2>
 
     <div class="section">
-        <label>💰 Configurar Preços (R$):</label>
+        <label>💰 AJUSTE DE PREÇOS (R$)</label>
         <div class="price-grid">
             <div class="price-item">
                 <label>COMUM</label>
@@ -59,22 +76,22 @@
             </div>
             <div class="price-item">
                 <label>ESPECIAL</label>
-                <input type="number" id="p_especial" value="35.00" oninput="salvarEstado()">
+                <input type="number" id="p_especial" value="50.00" oninput="salvarEstado()">
             </div>
         </div>
     </div>
 
     <div class="section">
-        <label>📸 Foto da Produção:</label>
+        <label>📸 FOTO DO DIA</label>
         <label class="foto-upload">
-            <span id="label-foto">Selecionar foto 📷</span>
+            <span id="label-foto">CLIQUE PARA ANEXAR 📷</span>
             <input type="file" id="fotoInput" accept="image/*" onchange="previewFoto(this)" style="display:none">
             <img id="preview" class="preview-img">
         </label>
     </div>
 
     <div class="section">
-        <label>1. Saudação:</label>
+        <label>1. SAUDAÇÃO</label>
         <div class="saudacao-grid">
             <label><input type="radio" name="saudacao" value="Bom dia ☕" onchange="salvarEstado()"> Bom dia ☕</label>
             <label><input type="radio" name="saudacao" value="Boa tarde ☀️" onchange="salvarEstado()"> Boa tarde ☀️</label>
@@ -83,7 +100,7 @@
     </div>
 
     <div class="section">
-        <label>2. Título:</label>
+        <label>2. TÍTULO DO POST</label>
         <input type="text" id="titulo" class="input-text" oninput="salvarEstado()">
     </div>
 
@@ -97,29 +114,29 @@
             <div id="lista-especial" class="list"></div>
         </div>
         <div class="column" id="col-especial" style="display:none">
-            <div class="cat-title">ESPECIAL</div>
+            <div class="cat-title">ESPECIAIS 🌟</div>
             <div id="lista-vips" class="list"></div>
         </div>
     </div>
 
     <div class="section" style="margin-top:20px;">
-        <label>4. Rodapé:</label>
+        <label>4. RODAPÉ E PAGAMENTO</label>
         <textarea id="rodape" rows="5" oninput="salvarEstado()"></textarea>
     </div>
 
     <div class="actions">
-        <button class="btn-wa" onclick="enviarTudo()">🚀 ENVIAR PARA WHATSAPP</button>
-        <button class="btn-clear" onclick="limparTudo()">🗑️ RESETAR TUDO</button>
+        <button class="btn-wa" onclick="enviarTudo()">🚀 GERAR E ENVIAR WHATSAPP</button>
+        <button class="btn-clear" onclick="limparTudo()">🗑️ RECOMEÇAR TUDO</button>
     </div>
 </div>
 
 <script>
+    // Registro do SW para PWA (Atualize a versão no sw.js para v7!)
     if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/vendas-pelo-watsapp/sw.js'); }
 
-    // ADICIONE SEUS SABORES AQUI
     const saboresComuns = ["CHOCOLATE", "CENOURA", "FUBÁ", "MILHO", "LARANJA", "LIMÃO", "NINHO", "PAÇOCA", "BANANA"];
     const saboresCobertura = ["CHOCOLATE COM CHOCOLATE", "CHOCOLATE COM NINHO", "CENOURA COM CHOCOLATE", "NINHO COM CHOCOLATE", "NINHO COM NINHO", "FUBÁ COM GOIABADA", "CHURROS", "ABACAXI CARAMELADO", "BANANA CARAMELADA", "CUCA DE BANANA", "PAÇOCA COM DOCE DE LEITE"];
-    const saboresEspeciais = []; // Quando você colocar algo aqui, a 3ª coluna aparece!
+    const saboresEspeciais = []; 
 
     function renderizarSabores() {
         const cDiv = document.getElementById('lista-comum');
@@ -161,12 +178,12 @@
             rodape: document.getElementById('rodape').value,
             selecionados: Array.from(document.querySelectorAll('.sabor:checked')).map(cb => cb.getAttribute('data-nome'))
         };
-        localStorage.setItem('ju_v6_data', JSON.stringify(estado));
+        localStorage.setItem('ju_v7_dark', JSON.stringify(estado));
     }
 
     function carregarEstado() {
         renderizarSabores();
-        const salvo = localStorage.getItem('ju_v6_data');
+        const salvo = localStorage.getItem('ju_v7_dark');
         if (salvo) {
             const e = JSON.parse(salvo);
             document.getElementById('p_comum').value = e.precos.comum;
@@ -182,11 +199,11 @@
         }
     }
 
-    function limparTudo() { if(confirm("Resetar App?")) { localStorage.removeItem('ju_v6_data'); location.reload(); } }
+    function limparTudo() { if(confirm("Apagar tudo?")) { localStorage.removeItem('ju_v7_dark'); location.reload(); } }
 
     async function enviarTudo() {
         const sel = document.querySelectorAll('.sabor:checked');
-        if (sel.length === 0) { alert("Escolha os sabores!"); return; }
+        if (sel.length === 0) { alert("Selecione os bolos!"); return; }
 
         const pComum = document.getElementById('p_comum').value;
         const pCob = document.getElementById('p_cobertura').value;
@@ -195,7 +212,6 @@
         let msg = `*${document.querySelector('input[name="saudacao"]:checked').value} ${document.getElementById('titulo').value}*\n\n*SABORES DISPONÍVEIS:* 😋\n\n`;
         
         const filtrar = (cat) => Array.from(sel).filter(s => s.getAttribute('data-cat') === cat);
-        
         const comuns = filtrar('COMUM');
         const cobs = filtrar('COB');
         const esps = filtrar('ESP');
