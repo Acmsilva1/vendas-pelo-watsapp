@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vendas pelo WhatsApp - Jú</title>
-    
     <link rel="manifest" href="/vendas-pelo-watsapp/manifest.json">
     <meta name="theme-color" content="#d81b60">
-    
     <style>
         :root { --wa: #25d366; --pink: #d81b60; --blue: #34b7f1; }
         body { font-family: 'Segoe UI', sans-serif; background: #e5e5e5; padding: 15px; margin: 0; display: flex; justify-content: center; }
@@ -15,22 +13,32 @@
         h2 { color: var(--pink); text-align: center; margin-top: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
         .section { margin-bottom: 20px; background: #fdfdfd; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
         label { font-weight: bold; color: #555; display: block; margin-bottom: 8px; font-size: 14px; }
+        
+        /* Grid de Preços */
+        .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .price-item { background: #fff; padding: 10px; border-radius: 10px; border: 1px solid #ddd; text-align: center; }
+        .price-item label { font-size: 11px; margin-bottom: 4px; color: var(--pink); }
+        .price-item input { width: 100%; border: none; font-size: 16px; font-weight: bold; text-align: center; color: #333; outline: none; }
+
         .saudacao-grid { display: flex; gap: 8px; margin-bottom: 10px; }
         .saudacao-grid label { flex: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 2px solid #eee; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 12px; }
         .saudacao-grid input { display: none; }
         .saudacao-grid label:has(input:checked) { border-color: var(--pink); background: #fff5f8; color: var(--pink); font-weight: bold; }
-        input[type="text"], textarea { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #eee; font-size: 16px; outline: none; box-sizing: border-box; }
+        
+        textarea, .input-text { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #eee; font-size: 16px; box-sizing: border-box; }
         .foto-upload { background: #f0f7ff; border: 2px dashed var(--blue); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; display: block; }
-        .preview-img { max-width: 100px; max-height: 100px; margin-top: 10px; border-radius: 8px; display: none; margin-left: auto; margin-right: auto; }
+        .preview-img { max-width: 100px; max-height: 100px; margin-top: 10px; border-radius: 8px; display: none; margin: 10px auto; }
+        
         .flex-container { display: flex; flex-wrap: wrap; gap: 20px; }
-        .column { flex: 1; min-width: 280px; }
+        .column { flex: 1; min-width: 250px; }
         .cat-title { background: var(--pink); color: white; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; font-size: 13px; text-align: center; }
         .list { display: flex; flex-direction: column; gap: 6px; }
         .item { display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 10px; border: 1px solid #eee; cursor: pointer; font-size: 13px; }
         input[type="checkbox"] { margin-right: 12px; width: 22px; height: 22px; accent-color: var(--wa); }
+        
         .actions { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
         .btn-wa { background: var(--wa); color: white; border: none; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .btn-clear { background: #666; color: white; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-size: 12px; opacity: 0.8; }
+        .btn-clear { background: #666; color: white; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-size: 12px; }
     </style>
 </head>
 <body onload="carregarEstado()">
@@ -39,9 +47,27 @@
     <h2>📱 Vendas pelo WhatsApp</h2>
 
     <div class="section">
+        <label>💰 Configurar Preços (R$):</label>
+        <div class="price-grid">
+            <div class="price-item">
+                <label>COMUM</label>
+                <input type="number" id="p_comum" value="17.00" oninput="salvarEstado()">
+            </div>
+            <div class="price-item">
+                <label>COBERTURA</label>
+                <input type="number" id="p_cobertura" value="27.00" oninput="salvarEstado()">
+            </div>
+            <div class="price-item">
+                <label>ESPECIAL</label>
+                <input type="number" id="p_especial" value="35.00" oninput="salvarEstado()">
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
         <label>📸 Foto da Produção:</label>
         <label class="foto-upload">
-            <span id="label-foto">Clique para selecionar a foto 📷</span>
+            <span id="label-foto">Selecionar foto 📷</span>
             <input type="file" id="fotoInput" accept="image/*" onchange="previewFoto(this)" style="display:none">
             <img id="preview" class="preview-img">
         </label>
@@ -58,17 +84,21 @@
 
     <div class="section">
         <label>2. Título:</label>
-        <input type="text" id="titulo" oninput="salvarEstado()">
+        <input type="text" id="titulo" class="input-text" oninput="salvarEstado()">
     </div>
 
     <div class="flex-container">
         <div class="column">
-            <div class="cat-title">BOLOS COMUNS (R$ 17,00)</div>
+            <div class="cat-title">BOLOS COMUNS</div>
             <div id="lista-comum" class="list"></div>
         </div>
         <div class="column">
-            <div class="cat-title">COM COBERTURA (R$ 27,00)</div>
+            <div class="cat-title">COM COBERTURA</div>
             <div id="lista-especial" class="list"></div>
+        </div>
+        <div class="column" id="col-especial" style="display:none">
+            <div class="cat-title">ESPECIAL</div>
+            <div id="lista-vips" class="list"></div>
         </div>
     </div>
 
@@ -84,24 +114,30 @@
 </div>
 
 <script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/vendas-pelo-watsapp/sw.js');
-    }
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/vendas-pelo-watsapp/sw.js'); }
 
+    // ADICIONE SEUS SABORES AQUI
     const saboresComuns = ["CHOCOLATE", "CENOURA", "FUBÁ", "MILHO", "LARANJA", "LIMÃO", "NINHO", "PAÇOCA", "BANANA"];
-    const saboresEspeciais = ["CHOCOLATE COM CHOCOLATE", "CHOCOLATE COM NINHO", "CENOURA COM CHOCOLATE", "NINHO COM CHOCOLATE", "NINHO COM NINHO", "FUBÁ COM GOIABADA", "CHURROS", "ABACAXI CARAMELADO", "BANANA CARAMELADA", "CUCA DE BANANA", "PAÇOCA COM DOCE DE LEITE"];
+    const saboresCobertura = ["CHOCOLATE COM CHOCOLATE", "CHOCOLATE COM NINHO", "CENOURA COM CHOCOLATE", "NINHO COM CHOCOLATE", "NINHO COM NINHO", "FUBÁ COM GOIABADA", "CHURROS", "ABACAXI CARAMELADO", "BANANA CARAMELADA", "CUCA DE BANANA", "PAÇOCA COM DOCE DE LEITE"];
+    const saboresEspeciais = []; // Quando você colocar algo aqui, a 3ª coluna aparece!
 
     function renderizarSabores() {
         const cDiv = document.getElementById('lista-comum');
         const eDiv = document.getElementById('lista-especial');
-        cDiv.innerHTML = ""; eDiv.innerHTML = ""; // Evita duplicação
+        const vDiv = document.getElementById('lista-vips');
+        cDiv.innerHTML = ""; eDiv.innerHTML = ""; vDiv.innerHTML = "";
 
-        saboresComuns.forEach(s => {
-            cDiv.innerHTML += `<label class="item"><input type="checkbox" class="sabor" data-nome="${s}" data-cat="COMUM" onchange="salvarEstado()"> ${s}</label>`;
-        });
-        saboresEspeciais.forEach(s => {
-            eDiv.innerHTML += `<label class="item"><input type="checkbox" class="sabor" data-nome="${s}" data-cat="ESP" onchange="salvarEstado()"> ${s}</label>`;
-        });
+        saboresComuns.forEach(s => cDiv.innerHTML += criarItem(s, 'COMUM'));
+        saboresCobertura.forEach(s => eDiv.innerHTML += criarItem(s, 'COB'));
+        
+        if(saboresEspeciais.length > 0) {
+            document.getElementById('col-especial').style.display = 'block';
+            saboresEspeciais.forEach(s => vDiv.innerHTML += criarItem(s, 'ESP'));
+        }
+    }
+
+    function criarItem(nome, cat) {
+        return `<label class="item"><input type="checkbox" class="sabor" data-nome="${nome}" data-cat="${cat}" onchange="salvarEstado()"> ${nome}</label>`;
     }
 
     function previewFoto(input) {
@@ -115,19 +151,27 @@
 
     function salvarEstado() {
         const estado = {
+            precos: {
+                comum: document.getElementById('p_comum').value,
+                cob: document.getElementById('p_cobertura').value,
+                esp: document.getElementById('p_especial').value
+            },
             saudacao: document.querySelector('input[name="saudacao"]:checked')?.value || "Bom dia ☕",
             titulo: document.getElementById('titulo').value,
             rodape: document.getElementById('rodape').value,
             selecionados: Array.from(document.querySelectorAll('.sabor:checked')).map(cb => cb.getAttribute('data-nome'))
         };
-        localStorage.setItem('ju_v5_vendas', JSON.stringify(estado));
+        localStorage.setItem('ju_v6_data', JSON.stringify(estado));
     }
 
     function carregarEstado() {
         renderizarSabores();
-        const salvo = localStorage.getItem('ju_v5_vendas');
+        const salvo = localStorage.getItem('ju_v6_data');
         if (salvo) {
             const e = JSON.parse(salvo);
+            document.getElementById('p_comum').value = e.precos.comum;
+            document.getElementById('p_cobertura').value = e.precos.cob;
+            document.getElementById('p_especial').value = e.precos.esp;
             document.getElementById('titulo').value = e.titulo;
             document.getElementById('rodape').value = e.rodape;
             document.querySelectorAll('input[name="saudacao"]').forEach(r => { if(r.value === e.saudacao) r.checked = true; });
@@ -138,22 +182,32 @@
         }
     }
 
-    function limparTudo() { if(confirm("Limpar tudo?")) { localStorage.removeItem('ju_v5_vendas'); location.reload(); } }
+    function limparTudo() { if(confirm("Resetar App?")) { localStorage.removeItem('ju_v6_data'); location.reload(); } }
 
     async function enviarTudo() {
         const sel = document.querySelectorAll('.sabor:checked');
         if (sel.length === 0) { alert("Escolha os sabores!"); return; }
 
-        let msg = `*${document.querySelector('input[name="saudacao"]:checked').value} ${document.getElementById('titulo').value}*\n\n*SABORES:* 😋\n\n`;
-        const comuns = Array.from(sel).filter(s => s.getAttribute('data-cat') === 'COMUM');
-        const esps = Array.from(sel).filter(s => s.getAttribute('data-cat') === 'ESP');
+        const pComum = document.getElementById('p_comum').value;
+        const pCob = document.getElementById('p_cobertura').value;
+        const pEsp = document.getElementById('p_especial').value;
 
-        if(comuns.length > 0) { msg += `🥧 *COMUM: 17,00 R$*\n`; comuns.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
-        if(esps.length > 0) { msg += `🍰 *COM COBERTURA: 27,00 R$*\n`; esps.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
+        let msg = `*${document.querySelector('input[name="saudacao"]:checked').value} ${document.getElementById('titulo').value}*\n\n*SABORES DISPONÍVEIS:* 😋\n\n`;
+        
+        const filtrar = (cat) => Array.from(sel).filter(s => s.getAttribute('data-cat') === cat);
+        
+        const comuns = filtrar('COMUM');
+        const cobs = filtrar('COB');
+        const esps = filtrar('ESP');
+
+        if(comuns.length > 0) { msg += `🥧 *COMUM: ${pComum} R$*\n`; comuns.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
+        if(cobs.length > 0) { msg += `🍰 *COM COBERTURA: ${pCob} R$*\n`; cobs.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
+        if(esps.length > 0) { msg += `🌟 *ESPECIAL: ${pEsp} R$*\n`; esps.forEach(s => msg += `✅ ${s.getAttribute('data-nome')}\n`); msg += `\n`; }
+        
         msg += document.getElementById('rodape').value;
 
         const files = document.getElementById('fotoInput').files;
-        if (files.length > 0 && navigator.canShare && navigator.canShare({ files: [files[0]] })) {
+        if (files.length > 0 && navigator.share) {
             try { await navigator.share({ files: [files[0]], text: msg }); return; } catch (err) {}
         }
         if (navigator.share) { await navigator.share({ text: msg }); } 
