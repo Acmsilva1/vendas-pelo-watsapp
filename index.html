@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendas</title>
-    <link rel="manifest" href="/vendas-pelo-watsapp/manifest.json">
+    
+    <title>Vendas da Jú</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
     <meta name="theme-color" content="#121212">
+    
+    <link rel="manifest" href="/vendas-pelo-watsapp/manifest.json">
     <style>
         :root { 
             --wa: #25d366; --pink: #ff4081; --blue: #40c4ff;
@@ -139,7 +143,7 @@
 
     // Função assíncrona que não trava o envio do WhatsApp
     function registrarNoSheets(selecionados, precos) {
-        document.getElementById('status').innerText = "⌛ Enviando insight...";
+        document.getElementById('status').innerText = "⌛ Enviando dados...";
         const dados = {
             hora: new Date().toLocaleTimeString('pt-BR'),
             diaSemana: new Date().toLocaleDateString('pt-BR', {weekday: 'long'}),
