@@ -1,4 +1,4 @@
-const CACHE_NAME = 'delicias-ju-v6';
+const CACHE_NAME = 'delicias-ju-v7';
 // Adicionando o prefixo do novo repositório nos assets
 const assets = [
   '/vendas-pelo-watsapp/',
